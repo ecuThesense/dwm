@@ -1,4 +1,5 @@
 #include <X11/XF86keysym.h>
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* appearance */
 static const unsigned int borderpx  = 10;        /* border pixel of windows */
@@ -62,29 +63,32 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 /* Apps */
 static const char *termcmd[]  = { "st", "-f", "monospace:size=16", NULL };
 static const char *filemanager[]  = { "pcmanfm", NULL };
+static const char *termfilemanager[]  = { "st", "-f", "monospace:size=16", "-e", "nnn", NULL };
 static const char *texteditor[]  = { "st", "-f", "monospace:size=16", "-e", "nvim", NULL };
 static const char *browser[]  = { "surf", "startpage.com", NULL };
 static const char *screenshot[]  = { "xfce4-screenshooter", NULL };
 static const char *locker[]  = { "slock", NULL };
-/* Audio */
-static const char *audiomute[]  = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
-static const char *audiolower[]  = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "0.1-", NULL };
-static const char *audioraise[]  = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "0.1+", "-l", "1.0", NULL };
+/* Audio & Brightness
+static const char *audiomute[]  = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", "&&", "~/dwm/dwm/scripts/statusbar.sh", "--once", NULL };
+static const char *audiolower[]  = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "0.1-", "&&", "~/dwm/dwm/scripts/statusbar.sh", "--once", NULL };
+static const char *audioraise[]  = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "0.1+", "-l", "1.0", "&&", "~/dwm/dwm/scripts/statusbar.sh", "--once", NULL };
 static const char *micmute[]  = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SOURCE@", "toggle", NULL };
 static const char *audioplay[]  = { "playerctl", "play-pause", NULL };
 static const char *audiostop[]  = { "playerctl", "stop", NULL };
 static const char *audioprev[]  = { "playerctl", "previous", NULL };
 static const char *audionext[]  = { "playerctl", "next", NULL };
-/* Brightness */
+
 static const char *brightnessup[]  = { "brightnessctl", "--class=backlight", "set", "+10%", NULL };
 static const char *brightnessdown[]  = { "brightnessctl", "--class=backlight", "set", "10%-", NULL };
+*/
 
 static const Key keys[] = {
 	/* modifier                     key                 function        argument */
 	{ MODKEY,                       XK_f,               spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_t,               spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_b,               togglebar,      {0} },
-	{ MODKEY,                       XK_e,               spawn,          {.v = filemanager } },
+	{ MODKEY,                       XK_e,               spawn,          {.v = termfilemanager } },
+	{ MODKEY|ShiftMask,             XK_e,               spawn,          {.v = filemanager } },
 	{ MODKEY,                       XK_m,               spawn,          {.v = texteditor } },
 	{ MODKEY,                       XK_b,               spawn,          {.v = browser } },
 	{ MODKEY,                       XK_s,               spawn,          {.v = screenshot } },
@@ -119,16 +123,16 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                               8)
 	{ MODKEY|ShiftMask,             XK_u,               quit,           {0} },
 	{ MODKEY,                       XK_u,               spawn,          {.v = locker } },
-	{ 0,                     XF86XK_AudioMute,            spawn,          {.v = audiomute } },
-	{ 0,                     XF86XK_AudioLowerVolume,     spawn,          {.v = audiolower } },
-	{ 0,                     XF86XK_AudioRaiseVolume,     spawn,          {.v = audioraise } },
-	{ 0,                     XF86XK_AudioMicMute,         spawn,          {.v = micmute } },
-	{ 0,                     XF86XK_AudioPlay,            spawn,          {.v = audioplay } },
-	{ 0,                     XF86XK_AudioStop,            spawn,          {.v = audiostop } },
-	{ 0,                     XF86XK_AudioPrev,            spawn,          {.v = audioprev } },
-	{ 0,                     XF86XK_AudioNext,            spawn,          {.v = audionext } },
-	{ 0,                     XF86XK_MonBrightnessUp,      spawn,          {.v = brightnessup } },
-	{ 0,                     XF86XK_MonBrightnessDown,    spawn,          {.v = brightnessdown } },
+	{ 0,                     XF86XK_AudioMute,            spawn,        SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && ~/dwm/dwm/scripts/statusbar.sh --once")},
+	{ 0,                     XF86XK_AudioLowerVolume,     spawn,        SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1- && ~/dwm/dwm/scripts/statusbar.sh --once")},
+	{ 0,                     XF86XK_AudioRaiseVolume,     spawn,        SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0 && ~/dwm/dwm/scripts/statusbar.sh")},
+	{ 0,                     XF86XK_AudioMicMute,         spawn,        SHCMD("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle")},
+	{ 0,                     XF86XK_AudioPlay,            spawn,        SHCMD("playerctl play-pause")},
+	{ 0,                     XF86XK_AudioStop,            spawn,        SHCMD("playerctl stop")},
+	{ 0,                     XF86XK_AudioPrev,            spawn,        SHCMD("playerctl previous")},
+	{ 0,                     XF86XK_AudioNext,            spawn,        SHCMD("playerctl next")},
+	{ 0,                     XF86XK_MonBrightnessUp,      spawn,        SHCMD("brightnessctl --class=backlight set +10%")},
+	{ 0,                     XF86XK_MonBrightnessDown,    spawn,        SHCMD("brightnessctl --class=backlight set 10%-")},
 };
 
 /* button definitions */
