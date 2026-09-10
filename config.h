@@ -63,7 +63,6 @@ static const char *termcmd[]  = { "st", "-f", "monospace:size=16", NULL };
 static const char *filemanager[]  = { "pcmanfm", NULL };
 static const char *termfilemanager[]  = { "st", "-f", "monospace:size=16", "-e", "nnn", NULL };
 static const char *texteditor[]  = { "st", "-f", "monospace:size=16", "-e", "nvim", NULL };
-<<<<<<< HEAD
 static const char *browser[]  = {
     "sh", "-c",
     "query=$(printf '' | dmenu -p 'Search: ') && "
