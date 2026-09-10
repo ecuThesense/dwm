@@ -1,5 +1,5 @@
 #include <X11/XF86keysym.h>
-
+<<<<<<< HEAD
 /* appearance */
 static const unsigned int borderpx  = 10;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -40,6 +40,7 @@ static const int refreshrate = 120;  /* refresh rate (per second) for client mov
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
+<<<<<<< HEAD
 	{ "󱓼",      tile },    /* first entry is default */
 	{ "󱂬",      NULL },    /* no layout function means floating behavior */
 	{ "",      monocle },
@@ -64,6 +65,7 @@ static const char *termcmd[]  = { "st", "-f", "monospace:size=16", NULL };
 static const char *filemanager[]  = { "pcmanfm", NULL };
 static const char *termfilemanager[]  = { "st", "-f", "monospace:size=16", "-e", "nnn", NULL };
 static const char *texteditor[]  = { "st", "-f", "monospace:size=16", "-e", "nvim", NULL };
+<<<<<<< HEAD
 static const char *browser[]  = {
     "sh", "-c",
     "query=$(printf '' | dmenu -p 'Search: ') && "
@@ -127,6 +129,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                               8)
 	{ MODKEY|ShiftMask,             XK_u,               quit,           {0} },
 	{ MODKEY,                       XK_u,               spawn,          {.v = locker } },
+<<<<<<< HEAD
 	{ 0,                     XF86XK_AudioMute,          spawn,          SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")},
 	{ 0,                     XF86XK_AudioLowerVolume,   spawn,          SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-")},
 	{ 0,                     XF86XK_AudioRaiseVolume,   spawn,          SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0")},
