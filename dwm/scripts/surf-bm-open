@@ -1,6 +1,6 @@
 #!/bin/sh
 # usage: surf-bm-open <winid>
-bm="$HOME/.surf/bookmarks.html"
+bm="$HOME/bookmarks.html"
 [ -s "$bm" ] || exit 1
 
 # pull every <DT><A HREF="...">title</A> line, flattening any folders

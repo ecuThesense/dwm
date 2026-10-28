@@ -96,7 +96,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_b,               togglebar,      {0} },
 	{ MODKEY,                       XK_e,               spawn,          {.v = filemanager } },
 	/*{ MODKEY|ShiftMask,             XK_e,               spawn,          SHCMD("st -f AdwaitaMono Nerd Font:size=16 -e ./SourceApps/dwm/dwm/search.sh")},*/
-	{ MODKEY|ShiftMask,             XK_e,               spawn,          SHCMD("st -f AdwaitaMono Nerd Font:size=16 -e ~/dwm/dwm/scripts/file-picker.sh")},
+	{ MODKEY|ShiftMask,             XK_e,               spawn,          SHCMD("st -f 'AdwaitaMono Nerd Font:size=16' -e ./dwm/dwm/scripts/file-picker.sh")},
 	{ MODKEY,                       XK_i,               spawn,          SHCMD("./dwm/dmenuman/dmenuman.sh")},
 	{ MODKEY,                       XK_m,               spawn,          {.v = texteditor } },
 	{ MODKEY,                       XK_b,               spawn,          {.v = browser } },
