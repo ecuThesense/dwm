@@ -1,0 +1,4 @@
+systemctl --user enable --now gnome-keyring-daemon.socket
+doas nvim /etc/pam.d/login
+auth       optional   pam_gnome_keyring.so
+session    optional   pam_gnome_keyring.so auto_start

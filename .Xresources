@@ -1,0 +1,20 @@
+! xrdb -merge .Xresources
+! Font
+! xterm*faceName: Liberation Mono
+xterm*faceName: AdwaitaMono Nerd Font
+xterm*faceSize: 16
+
+! Colors
+xterm*background: #000000
+xterm*foreground: #ffffff
+xterm*cursorColor: #ffffff
+
+! Scrollback
+xterm*saveLines: 5000
+xterm*scrollBar: true
+xterm*rightScrollBar: true
+
+! Terminal behavior
+xterm*termName: xterm-256color
+xterm*metaSendsEscape: true
+xterm*bellIsUrgent: true

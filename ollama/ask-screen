@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+MODEL="gemma4-e4b-uncensored"
+IMAGE="$(mktemp --suffix=.png)"
+trap 'rm -f "$IMAGE"' EXIT
+
+# Выделяем область и получаем PNG в stdout
+flameshot gui --raw --accept-on-select >"$IMAGE"
+
+# Проверяем, что изображение действительно получено
+if [[ ! -s "$IMAGE" ]] || ! file "$IMAGE" | grep -q 'PNG image data'; then
+  echo "Не удалось получить скриншот." >&2
+  exit 1
+fi
+
+gnome-terminal -- ollama serve &&
+  sleep 7
+
+# Передаём изображение модели
+ollama run "$MODEL" \
+  "Что изображено на этом скриншоте? $IMAGE"

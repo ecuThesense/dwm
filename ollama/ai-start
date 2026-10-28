@@ -1,0 +1,5 @@
+gnome-terminal -- ollama serve
+
+sleep 7
+
+ollama run gemma4-e4b-uncensored --think=false
