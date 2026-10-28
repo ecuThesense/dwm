@@ -1,6 +1,6 @@
 # #!/bin/sh
 # Pick a bookmark ("name | URL"), paste a link, or type a query to web-search.
-bm="$HOME/.surf/bookmarks.html"
+bm="$HOME/bookmarks.html"
 
 search_url() {
   q=$(printf '%s' "$1" | od -An -v -tx1 | tr -d ' \n' | sed 's/../%&/g')
