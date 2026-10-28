@@ -66,9 +66,9 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function     format          argument */
-	{ keymap,       " %s |",        NULL },
+	{ keymap,       " 󰌌 %s |",        NULL },
 	{ run_command,  " 󰕾 %s%% |",  "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{printf \"%.0f\", $2 * 100}'" },
-	{ ram_used,     " RAM %s |",    NULL },
+	{ ram_used,     " 󰓅 %s |",    NULL },
 	{ disk_free,    " 󰗮 %s |",   "/" },
 	{ battery_perc, " 󰁹 %s%% |",  "BAT0" },
 	{ wifi_essid,   "   %s |",   "wlp0s20f3" },
