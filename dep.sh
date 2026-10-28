@@ -5,7 +5,7 @@
 # chmod 0400 /etc/doas.conf
 # apt purge sudo && apt autoremove -y
 doas apt update && doas apt upgrade -y && doas apt full-upgrade -y && doas apt autoremove -y
-doas apt install git fzf firefox-esr thunderbird gimp libreoffice timeshift htop imagemagick ffmpeg mat2 mpv foomatic-db cups cups-pk-helper curl xclip make clang cmake ninja-build rustup meson just tealdeer vrms wget manpages man-db laptop-detect golang-go gnupg gcc mc converseen flameshot maim xwallpaper
+doas apt install git fzf firefox-esr thunderbird gimp libreoffice timeshift htop imagemagick ffmpeg mat2 mpv foomatic-db cups cups-pk-helper curl xclip make clang cmake ninja-build rustup meson just tealdeer vrms wget manpages man-db laptop-detect golang-go gnupg gcc mc converseen flameshot maim xwallpaper pcmanfm
 
 doas apt install \
   build-essential \

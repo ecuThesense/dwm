@@ -60,7 +60,8 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 /* Apps */
 static const char *termcmd[]  = { "st", "-f", "AdwaitaMono Nerd Font:size=16", NULL };
-static const char *termfilemanager[]  = { "st", "-f", "AdwaitaMono Nerd Font:size=16", "-e", "nnn", NULL };
+/* static const char *filemanager[]  = { "st", "-f", "AdwaitaMono Nerd Font:size=16", "-e", "nnn", NULL }; */
+static const char *filemanager[]  = { "pcmanfm", NULL };
 static const char *texteditor[]  = { "st", "-f", "AdwaitaMono Nerd Font:size=16", "-e", "nvim", NULL };
 /* static const char *browser[]  = {"firefox", NULL}; */
 /*
@@ -71,7 +72,8 @@ static const char *browser[]  = {
     NULL
 };
 */
-static const char *browser[]  = {"./dwm/dwm/scripts/surf-launch.sh", NULL};
+/* static const char *browser[]  = {"./dwm/dwm/scripts/surf-launch.sh", NULL}; */
+static const char *browser[]  = {"./dwm/dwm/scripts/dwm-browser-launch.sh", NULL};
 static const char *locker[]  = { "slock", NULL };
 /* Audio & Brightness
 static const char *audiomute[]  = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", "&&", "~/dwm/dwm/scripts/statusbar.sh", "--once", NULL };
@@ -92,8 +94,9 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_f,               spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_t,               spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_b,               togglebar,      {0} },
-	{ MODKEY,                       XK_e,               spawn,          {.v = termfilemanager } },
-	{ MODKEY|ShiftMask,             XK_e,               spawn,          SHCMD("st -f AdwaitaMono Nerd Font:size=16 -e ./SourceApps/dwm/dwm/search.sh")},
+	{ MODKEY,                       XK_e,               spawn,          {.v = filemanager } },
+	/*{ MODKEY|ShiftMask,             XK_e,               spawn,          SHCMD("st -f AdwaitaMono Nerd Font:size=16 -e ./SourceApps/dwm/dwm/search.sh")},*/
+	{ MODKEY|ShiftMask,             XK_e,               spawn,          SHCMD("st -f AdwaitaMono Nerd Font:size=16 -e ~/dwm/dwm/scripts/file-picker.sh")},
 	{ MODKEY,                       XK_i,               spawn,          SHCMD("./dwm/dmenuman/dmenuman.sh")},
 	{ MODKEY,                       XK_m,               spawn,          {.v = texteditor } },
 	{ MODKEY,                       XK_b,               spawn,          {.v = browser } },
