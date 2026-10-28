@@ -7,6 +7,14 @@
 doas apt update && doas apt upgrade -y && doas apt full-upgrade -y && doas apt autoremove -y
 doas apt install git fzf firefox-esr thunderbird gimp libreoffice timeshift htop imagemagick ffmpeg mat2 mpv foomatic-db cups cups-pk-helper curl xclip make clang cmake ninja-build rustup meson just tealdeer vrms wget manpages man-db laptop-detect golang-go gnupg gcc mc converseen flameshot maim
 
+doas apt install \
+  build-essential \
+  pkg-config \
+  libx11-dev \
+  libgtk-3-dev \
+  libgcr-3-dev \
+  libwebkit2gtk-4.1-dev
+
 cp ~/dwm/.bashrc ~/.bashrc
 cp -r ~/dwm/AdwaitaMono/ ~/.local/share/fonts/
 #rm -rf ~/.config/alacritty/
