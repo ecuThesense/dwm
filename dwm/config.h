@@ -161,7 +161,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_r,               cyclecolw,      {.i = +1} },
 	{ MODKEY,                       XK_minus,           setcolw,        {.f = -0.10} },
 	{ MODKEY,                       XK_plus,            setcolw,        {.f = +0.10} },
-	{ MODKEY|ControlMask|ShiftMask, XK_f,               maxcol,         {0} },
+	{ MODKEY|ShiftMask,             XK_f,               maxcol,         {0} },
 	// { MODKEY,                       XK_l,               focusstack,     {.i = +1 } },
 	// { MODKEY,                       XK_h,               focusstack,     {.i = -1 } },
 	// { MODKEY,                       XK_k,               incnmaster,     {.i = +1 } },
@@ -176,7 +176,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_w,               killclient,     {0} },
 	// { MODKEY|ShiftMask,             XK_t,               setlayout,      {.v = &layouts[0]} },
 /*{ MODKEY|ShiftMask,             XK_f,               setlayout,      {.v = &layouts[1]} },*/
-	{ MODKEY|ShiftMask,             XK_f,               togglefloating, {0} },
+	{ MODKEY|ControlMask|ShiftMask, XK_f,               togglefloating, {0} },
 	// { MODKEY|ShiftMask,             XK_m,               setlayout,      {.v = &layouts[2]} },
 /*{ MODKEY|ShiftMask,             XK_space,           setlayout,      {0} },*/
 	{ MODKEY,                       XK_0,               view,           {.ui = ~0 } },
