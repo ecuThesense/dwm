@@ -89,6 +89,54 @@ static const char *brightnessup[]  = { "brightnessctl", "--class=backlight", "se
 static const char *brightnessdown[]  = { "brightnessctl", "--class=backlight", "set", "10%-", NULL };
 */
 
+/*Move Stack Function*/
+void
+movestack(const Arg *arg) {
+	Client *c = NULL, *p = NULL, *pc = NULL, *i;
+
+	if (arg->i > 0) {
+		/* find the client after selmon->sel */
+		for (c = selmon->sel->next; c && (!ISVISIBLE(c) || c->isfloating); c = c->next);
+		if (!c)
+			for (c = selmon->clients; c && (!ISVISIBLE(c) || c->isfloating); c = c->next);
+	} else {
+		/* find the client before selmon->sel */
+		for (i = selmon->clients; i != selmon->sel; i = i->next)
+			if (ISVISIBLE(i) && !i->isfloating)
+				c = i;
+		if (!c)
+			for (; i; i = i->next)
+				if (ISVISIBLE(i) && !i->isfloating)
+					c = i;
+	}
+	/* find the client before selmon->sel and c */
+	for (i = selmon->clients; i && (!p || !pc); i = i->next) {
+		if (i->next == selmon->sel)
+			p = i;
+		if (i->next == c)
+			pc = i;
+	}
+
+	/* swap c and selmon->sel in the clients list */
+	if (c && c != selmon->sel) {
+		Client *temp = selmon->sel->next == c ? selmon->sel : selmon->sel->next;
+		selmon->sel->next = c->next == selmon->sel ? c : c->next;
+		c->next = temp;
+
+		if (p && p != c)
+			p->next = c;
+		if (pc && pc != selmon->sel)
+			pc->next = selmon->sel;
+
+		if (selmon->sel == selmon->clients)
+			selmon->clients = c;
+		else if (c == selmon->clients)
+			selmon->clients = selmon->sel;
+
+		arrange(selmon);
+	}
+}
+
 static const Key keys[] = {
 	/* modifier                     key                 function        argument */
 	{ MODKEY,                       XK_f,               spawn,          {.v = dmenucmd } },
@@ -106,14 +154,16 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_j,               incnmaster,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_j,               setmfact,       {.f = -0.05} },
 	{ MODKEY|ShiftMask,             XK_k,               setmfact,       {.f = +0.05} },
+  { MODKEY|ShiftMask,             XK_h,               movestack,      {.i = -1 } },
+  { MODKEY|ShiftMask,             XK_l,               movestack,      {.i = +1 } },
 	{ MODKEY,                       XK_z,               zoom,           {0} },
 	{ MODKEY,                       XK_Tab,             view,           {0} },
 	{ MODKEY,                       XK_w,               killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_t,               setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ShiftMask,             XK_f,               setlayout,      {.v = &layouts[1]} },
+/*{ MODKEY|ShiftMask,             XK_f,               setlayout,      {.v = &layouts[1]} },*/
+	{ MODKEY|ShiftMask,             XK_f,               togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_m,               setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_space,           setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,           togglefloating, {0} },
+/*{ MODKEY|ShiftMask,             XK_space,           setlayout,      {0} },*/
 	{ MODKEY,                       XK_0,               view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,               tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,           focusmon,       {.i = -1 } },

@@ -12,7 +12,7 @@ dbus-update-activation-environment --systemd \
     XDG_SESSION_TYPE \
     XDG_DATA_DIRS
 
-xwallpaper --zoom ~/dwm/dwm/Wallpapers/wallhaven.png &
+xwallpaper --zoom ~/dwm/dwm/Wallpapers/blue-abstract-3840x2160-25121.jpg &
 
 slstatus &
 lxpolkit &
