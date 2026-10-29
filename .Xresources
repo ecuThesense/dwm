@@ -1,6 +1,5 @@
 ! xrdb -merge .Xresources
 ! Font
-! xterm*faceName: Liberation Mono
 xterm*faceName: AdwaitaMono Nerd Font
 xterm*faceSize: 16
 

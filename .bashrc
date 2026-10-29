@@ -143,7 +143,7 @@ bin-import() {
 }
 
 cmc() {
-  "$HOME/SourceApps/gnome/command-run.sh" "$@"
+  "$HOME/dwm/dwm/scripts/command-run.sh" "$@"
 }
 
 if [ -f ~/.bash_aliases ]; then
