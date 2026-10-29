@@ -40,7 +40,7 @@
 #include <X11/extensions/Xinerama.h>
 #endif /* XINERAMA */
 #include <X11/Xft/Xft.h>
-
+#include <time.h>
 #include "drw.h"
 #include "util.h"
 
@@ -276,6 +276,7 @@ static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
 
+static long long lastarrange;
 /* configuration, allows nested code to access above variables */
 #include "config.h"
 
@@ -779,6 +780,47 @@ drawbars(void)
 		drawbar(m);
 }
 
+
+static long long
+nowms(void)
+{
+	struct timespec ts;
+
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ts.tv_sec * 1000LL + ts.tv_nsec / 1000000;
+}
+
+// void
+// enternotify(XEvent *e)
+// {
+// 	Client *c;
+// 	Monitor *m;
+// 	XCrossingEvent *ev = &e->xcrossing;
+//
+// 	if ((ev->mode != NotifyNormal || ev->detail == NotifyInferior) && ev->window != root)
+// 		return;
+// 	c = wintoclient(ev->window);
+// 	m = c ? c->mon : wintomon(ev->window);
+// 	if (m != selmon) {
+// 		unfocus(selmon->sel, 1);
+// 		selmon = m;
+// 	} else if (!c || c == selmon->sel)
+// 		return;
+//
+// 	if ((ev->mode != NotifyNormal || ev->detail == NotifyInferior) && ev->window != root)
+// 		return;
+// 	if (nowms() - lastarrange < 150)
+// 		return;
+// 	c = wintoclient(ev->window);
+// 	m = c ? c->mon : wintomon(ev->window);
+// 	if (c && !c->isfloating && m == selmon
+// 	&& (c->x < m->wx || c->x + WIDTH(c) > m->wx + m->ww))
+// 		return;
+// 	if (m != selmon) {
+//
+// 	focus(c);
+// }
+
 void
 enternotify(XEvent *e)
 {
@@ -788,8 +830,13 @@ enternotify(XEvent *e)
 
 	if ((ev->mode != NotifyNormal || ev->detail == NotifyInferior) && ev->window != root)
 		return;
+	if (nowms() - lastarrange < 150)
+		return;
 	c = wintoclient(ev->window);
 	m = c ? c->mon : wintomon(ev->window);
+	if (c && !c->isfloating && m == selmon
+	&& (c->x < m->wx || c->x + WIDTH(c) > m->wx + m->ww))
+		return;
 	if (m != selmon) {
 		unfocus(selmon->sel, 1);
 		selmon = m;
@@ -1742,6 +1789,7 @@ scroll(Monitor *m)
 	Client *c, *sel = m->sel;
 	int x = gappx, w, sx, selx = 0, selw = 0, total;
 	int y = m->wy + gappx, h = m->wh - 2 * gappx;
+	lastarrange = nowms();
 
 	/* pass 1: column positions in strip coordinates, find focused column */
 	for (c = nexttiled(m->clients); c; c = nexttiled(c->next)) {

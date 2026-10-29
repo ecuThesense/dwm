@@ -1,6 +1,6 @@
 #include <X11/XF86keysym.h>
 /* appearance */
-static const unsigned int borderpx  = 10;        /* border pixel of windows */
+static const unsigned int borderpx  = 5;        /* border pixel of windows */
 static const int gappx = 0;
 static const float colwidths[] = { 1.0/3, 0.5, 2.0/3, };
 
@@ -41,12 +41,13 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
 
 static const Layout layouts[] = {
-	/* symbol     arrange function */
-  { "|||",    scroll },
-	/* { "",      tile },*/    /* first entry is default */
-	{ "󱂬",      NULL },    /* no layout function means floating behavior */
-	/* { "",      monocle }, */
-};
+ 	/* symbol     arrange function */
+  {  "",        scroll },
+ 	{  "",        NULL },    /* no layout function means floating behavior */
+  // { "|||",    scroll },
+ 	/* { "",      tile },*/    /* first entry is default */
+ 	/* { "",      monocle }, */
+ };
 
 /* key definitions */
 #define MODKEY Mod4Mask
@@ -173,10 +174,10 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_z,               zoom,           {0} },
 	{ MODKEY,                       XK_Tab,             view,           {0} },
 	{ MODKEY,                       XK_w,               killclient,     {0} },
-	{ MODKEY|ShiftMask,             XK_t,               setlayout,      {.v = &layouts[0]} },
+	// { MODKEY|ShiftMask,             XK_t,               setlayout,      {.v = &layouts[0]} },
 /*{ MODKEY|ShiftMask,             XK_f,               setlayout,      {.v = &layouts[1]} },*/
 	{ MODKEY|ShiftMask,             XK_f,               togglefloating, {0} },
-	{ MODKEY|ShiftMask,             XK_m,               setlayout,      {.v = &layouts[2]} },
+	// { MODKEY|ShiftMask,             XK_m,               setlayout,      {.v = &layouts[2]} },
 /*{ MODKEY|ShiftMask,             XK_space,           setlayout,      {0} },*/
 	{ MODKEY,                       XK_0,               view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,               tag,            {.ui = ~0 } },
@@ -212,12 +213,12 @@ static const Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+	// { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
+	// { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
-	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
+	// { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
