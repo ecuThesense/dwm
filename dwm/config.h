@@ -1,6 +1,9 @@
 #include <X11/XF86keysym.h>
 /* appearance */
 static const unsigned int borderpx  = 10;        /* border pixel of windows */
+static const int gappx = 0;
+static const float colwidths[] = { 1.0/3, 0.5, 2.0/3, };
+
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -39,9 +42,10 @@ static const int refreshrate = 120;  /* refresh rate (per second) for client mov
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "",      tile },    /* first entry is default */
+  { "|||",    scroll },
+	/* { "",      tile },*/    /* first entry is default */
 	{ "󱂬",      NULL },    /* no layout function means floating behavior */
-	{ "",      monocle },
+	/* { "",      monocle }, */
 };
 
 /* key definitions */
@@ -148,12 +152,22 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_i,               spawn,          SHCMD("./dwm/dmenuman/dmenuman.sh")},
 	{ MODKEY,                       XK_m,               spawn,          {.v = texteditor } },
 	{ MODKEY,                       XK_b,               spawn,          {.v = browser } },
-	{ MODKEY,                       XK_l,               focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_h,               focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_k,               incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_j,               incnmaster,     {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_j,               setmfact,       {.f = -0.05} },
-	{ MODKEY|ShiftMask,             XK_k,               setmfact,       {.f = +0.05} },
+
+	{ MODKEY,                       XK_l,               focuscol,       {.i = +1} },
+	{ MODKEY,                       XK_h,               focuscol,       {.i = -1} },
+	{ MODKEY|ShiftMask,             XK_l,               movecol,        {.i = +1} },
+	{ MODKEY|ShiftMask,             XK_h,               movecol,        {.i = -1} },
+	{ MODKEY,                       XK_r,               cyclecolw,      {.i = +1} },
+	{ MODKEY,                       XK_minus,           setcolw,        {.f = -0.10} },
+	{ MODKEY,                       XK_plus,            setcolw,        {.f = +0.10} },
+	{ MODKEY|ControlMask|ShiftMask, XK_f,               maxcol,         {0} },
+	// { MODKEY,                       XK_l,               focusstack,     {.i = +1 } },
+	// { MODKEY,                       XK_h,               focusstack,     {.i = -1 } },
+	// { MODKEY,                       XK_k,               incnmaster,     {.i = +1 } },
+	// { MODKEY,                       XK_j,               incnmaster,     {.i = -1 } },
+	// { MODKEY|ShiftMask,             XK_j,               setmfact,       {.f = -0.05} },
+	// { MODKEY|ShiftMask,             XK_k,               setmfact,       {.f = +0.05} },
+
   { MODKEY|ShiftMask,             XK_h,               movestack,      {.i = -1 } },
   { MODKEY|ShiftMask,             XK_l,               movestack,      {.i = +1 } },
 	{ MODKEY,                       XK_z,               zoom,           {0} },

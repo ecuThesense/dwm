@@ -3,6 +3,8 @@ export XDG_CURRENT_DESKTOP=dwm
 export XDG_SESSION_DESKTOP=dwm
 
 setxkbmap -layout de,ru -option 'grp:alt_shift_toggle'
+xset r rate 200 35
+numlockx on
 
 dbus-update-activation-environment --systemd \
     DISPLAY \

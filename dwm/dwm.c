@@ -96,6 +96,8 @@ struct Client {
 	Client *snext;
 	Monitor *mon;
 	Window win;
+  float cw;          /* column width, fraction of screen */
+	float oldcw;       /* width before maximize */
 };
 
 typedef struct {
@@ -129,6 +131,7 @@ struct Monitor {
 	Monitor *next;
 	Window barwin;
 	const Layout *lt[2];
+	int viewx;         /* scroll offset of the strip */
 };
 
 typedef struct {
@@ -168,6 +171,8 @@ static void focus(Client *c);
 static void focusin(XEvent *e);
 static void focusmon(const Arg *arg);
 static void focusstack(const Arg *arg);
+static void setcolw(const Arg *arg);
+static void maxcol(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
@@ -208,6 +213,10 @@ static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *m);
+static void scroll(Monitor *m);
+static void focuscol(const Arg *arg);
+static void movecol(const Arg *arg);
+static void cyclecolw(const Arg *arg);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -400,11 +409,25 @@ arrangemon(Monitor *m)
 		m->lt[m->sellt]->arrange(m);
 }
 
+// void
+// attach(Client *c)
+// {
+// 	c->next = c->mon->clients;
+// 	c->mon->clients = c;
+// }
+
 void
 attach(Client *c)
 {
-	c->next = c->mon->clients;
-	c->mon->clients = c;
+	Client *s = c->mon->sel;
+
+	if (s && s != c) {
+		c->next = s->next;
+		s->next = c;
+	} else {
+		c->next = c->mon->clients;
+		c->mon->clients = c;
+	}
 }
 
 void
@@ -1043,6 +1066,7 @@ manage(Window w, XWindowAttributes *wa)
 	c->w = c->oldw = wa->width;
 	c->h = c->oldh = wa->height;
 	c->oldbw = wa->border_width;
+	c->cw = 0.5;
 
 	updatetitle(c);
 	if (XGetTransientForHint(dpy, w, &trans) && (t = wintoclient(trans))) {
@@ -1710,6 +1734,135 @@ tile(Monitor *m)
 			if (ty + HEIGHT(c) < m->wh)
 				ty += HEIGHT(c);
 		}
+}
+
+void
+scroll(Monitor *m)
+{
+	Client *c, *sel = m->sel;
+	int x = gappx, w, sx, selx = 0, selw = 0, total;
+	int y = m->wy + gappx, h = m->wh - 2 * gappx;
+
+	/* pass 1: column positions in strip coordinates, find focused column */
+	for (c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
+		w = (int)(c->cw * (m->ww - gappx)) - gappx;   /* outer width */
+		if (c == sel) {
+			selx = x;
+			selw = w;
+		}
+		x += w + gappx;
+	}
+	total = x;
+
+	/* scroll the minimum amount needed to show the focused column */
+	if (sel && !sel->isfloating && ISVISIBLE(sel)) {
+		if (selx - gappx < m->viewx)
+			m->viewx = selx - gappx;
+		else if (selx + selw + gappx > m->viewx + m->ww)
+			m->viewx = selx + selw + gappx - m->ww;
+	}
+	if (m->viewx > total - m->ww)
+		m->viewx = total - m->ww;
+	if (m->viewx < 0)
+		m->viewx = 0;
+
+	/* pass 2: place the windows */
+	x = gappx;
+	for (c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
+		w = (int)(c->cw * (m->ww - gappx)) - gappx;
+		sx = m->wx + x - m->viewx;
+		if (sx + w <= m->wx || sx >= m->wx + m->ww)
+			/* fully off-screen: resize() would clamp it back on-screen */
+			resizeclient(c, sx, y, w - 2 * c->bw, h - 2 * c->bw);
+		else
+			resize(c, sx, y, w - 2 * c->bw, h - 2 * c->bw, 0);
+		x += w + gappx;
+	}
+}
+
+
+void
+focuscol(const Arg *arg)
+{
+	focusstack(arg);
+	arrange(selmon);        /* re-run the layout so the view follows focus */
+}
+
+static void
+pushright(Client *c)        /* move c one tiled slot to the right */
+{
+	Client *n = nexttiled(c->next);
+
+	if (!n)
+		return;
+	detach(c);
+	c->next = n->next;
+	n->next = c;
+}
+
+void
+movecol(const Arg *arg)
+{
+	Client *c = selmon->sel, *p, *q;
+
+	if (!c || c->isfloating)
+		return;
+	if (arg->i > 0)
+		pushright(c);
+	else {
+		for (p = NULL, q = nexttiled(selmon->clients); q && q != c; q = nexttiled(q->next))
+			p = q;
+		if (!p || !q)
+			return;
+		pushright(p);       /* moving the left neighbour past us = moving us left */
+	}
+	arrange(selmon);
+}
+
+void
+cyclecolw(const Arg *arg)
+{
+	Client *c = selmon->sel;
+	int i, n = LENGTH(colwidths);
+
+	if (!c || c->isfloating)
+		return;
+	if (arg->i >= 0) {                       /* next preset, wraps to first */
+		for (i = 0; i < n && colwidths[i] <= c->cw + 0.01; i++)
+			;
+		c->cw = colwidths[i % n];
+	} else {                                 /* previous preset, wraps to last */
+		for (i = n - 1; i >= 0 && colwidths[i] >= c->cw - 0.01; i--)
+			;
+		c->cw = colwidths[i < 0 ? n - 1 : i];
+	}
+	arrange(selmon);
+}
+
+void
+setcolw(const Arg *arg)                      /* arg->f = relative change, e.g. +0.1 */
+{
+	Client *c = selmon->sel;
+
+	if (!c || c->isfloating)
+		return;
+	c->cw = MAX(0.1, MIN(1.0, c->cw + arg->f));
+	arrange(selmon);
+}
+
+void
+maxcol(const Arg *arg)                       /* toggle full width, like maximize-column */
+{
+	Client *c = selmon->sel;
+
+	if (!c || c->isfloating)
+		return;
+	if (c->cw < 0.999) {
+		c->oldcw = c->cw;
+		c->cw = 1.0;
+	} else
+		c->cw = c->oldcw > 0 ? c->oldcw : 0.5;
+	arrange(selmon);
 }
 
 void
