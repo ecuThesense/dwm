@@ -1,0 +1,19 @@
+#!/bin/sh
+# usage: surf-bm-open <winid>
+bm="$HOME/bookmarks.html"
+[ -s "$bm" ] || exit 1
+
+# pull every <DT><A HREF="...">title</A> line, flattening any folders
+pairs=$(sed -n 's/.*<A HREF="\([^"]*\)"[^>]*>\(.*\)<\/A>.*/\1\t\2/p' "$bm")
+[ -z "$pairs" ] && exit 1
+
+sel=$(printf '%s\n' "$pairs" | cut -f2 | sort -f | dmenu -w "$1" -i -l 10 -p 'Bookmark:')
+[ -z "$sel" ] && exit 0
+
+eurl=$(printf '%s\n' "$pairs" | awk -F'\t' -v t="$sel" '$2==t{print $1; exit}')
+[ -z "$eurl" ] && exit 0
+
+# reverse the HTML-escaping to get a real URL back
+url=$(printf '%s' "$eurl" | sed 's/&lt;/</g; s/&gt;/>/g; s/&quot;/"/g; s/&amp;/\&/g')
+
+xprop -id "$1" -f _SURF_GO 8u -set _SURF_GO "$url"

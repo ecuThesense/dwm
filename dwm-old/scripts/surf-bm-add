@@ -1,0 +1,45 @@
+#!/bin/sh
+# usage: surf-bm-add <winid>
+# Bookmarks live in the standard Netscape Bookmark File format
+# (the same one Firefox/Chrome use for export), so bookmarks.html
+# can be dropped straight into another browser, and an export from
+# another browser can be dropped in here.
+# which xprop dmenu sed awk grep date
+
+bm="$HOME/.surf/bookmarks.html"
+
+if [ ! -f "$bm" ]; then
+	cat > "$bm" <<-HTML
+	<!DOCTYPE NETSCAPE-Bookmark-file-1>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+	<TITLE>Bookmarks</TITLE>
+	<H1>Bookmarks</H1>
+	<DL><p>
+	</DL><p>
+	HTML
+fi
+
+url=$(xprop -id "$1" _SURF_URI \
+	| sed -e 's/^_SURF_URI(UTF8_STRING) = "\(.*\)"/\1/' -e 's/\\\(.\)/\1/g')
+
+# guard against xprop's "not found" case (e.g. blank/new window) —
+# without this, a junk line could end up in bookmarks.html
+case "$url" in
+	http://*|https://*|file://*|about:*) ;;
+	*) exit 1 ;;
+esac
+
+title=$(printf '' | dmenu -w "$1" -p 'Bookmark title:')
+[ -z "$title" ] && title="$url"
+
+# minimal HTML-escaping, the same four entities real exports use
+esc() { printf '%s' "$1" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g'; }
+eurl=$(esc "$url")
+etitle=$(esc "$title")
+
+grep -qF "HREF=\"$eurl\"" "$bm" && exit 0
+
+awk -v line="    <DT><A HREF=\"$eurl\" ADD_DATE=\"$(date +%s)\">$etitle</A>" '
+	!done && /<DL><p>/ { print; print line; done=1; next }
+	{ print }
+' "$bm" > "$bm.tmp" && mv "$bm.tmp" "$bm"
