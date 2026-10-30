@@ -31,6 +31,11 @@ static const Rule rules[] = {
 	/* class          instance    title       tags mask     isfloating   monitor   cw  */
 	{ "Gimp",         NULL,       NULL,       0,            0,           -1,       1.0  },
 	{ "firefox-esr",  NULL,       NULL,       0,            0,           -1,       1.0  },
+	{ "firefox",      NULL,       NULL,       0,            0,           -1,       1.0  },
+	{ "Firefox",      NULL,       NULL,       0,            0,           -1,       1.0  },
+	{ "Tor Browser",  NULL,       NULL,       0,            0,           -1,       1.0  },
+	{ "freetube",     NULL,       NULL,       0,            0,           -1,       1.0  },
+	{ "luanti",       NULL,       NULL,       0,            0,           -1,       1.0  },
 };
 
 /* layout(s) */
