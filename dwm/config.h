@@ -35,7 +35,6 @@ static const Rule rules[] = {
 	{ "Firefox",      NULL,       NULL,       0,            0,           -1,       1.0  },
 	{ "Tor Browser",  NULL,       NULL,       0,            0,           -1,       1.0  },
 	{ "freetube",     NULL,       NULL,       0,            0,           -1,       1.0  },
-	{ "luanti",       NULL,       NULL,       0,            0,           -1,       1.0  },
 };
 
 /* layout(s) */
