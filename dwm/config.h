@@ -137,6 +137,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_minus,           setcolw,        {.f = -0.10} },
 	{ MODKEY,                       XK_plus,            setcolw,        {.f = +0.10} },
 	{ MODKEY|ShiftMask,             XK_f,               maxcol,         {0} },
+	{ MODKEY|ShiftMask,             XK_j,               tagshift,       {.i = +1} },
+	{ MODKEY|ShiftMask,             XK_k,               tagshift,       {.i = -1} },
 	// { MODKEY,                       XK_l,               focusstack,     {.i = +1 } },
 	// { MODKEY,                       XK_h,               focusstack,     {.i = -1 } },
 	// { MODKEY,                       XK_k,               incnmaster,     {.i = +1 } },

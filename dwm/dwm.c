@@ -242,6 +242,7 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
+static void tagshift(const Arg *arg);
 
 /* variables */
 static const char broken[] = "broken";
@@ -1748,6 +1749,36 @@ tag(const Arg *arg)
 		focus(NULL);
 		arrange(selmon);
 	}
+}
+
+void
+tagshift(const Arg *arg)         /* arg->i = +1 / -1: move window and move with it */
+{
+	Client *c = selmon->sel, **t;
+	unsigned int cur, i;
+	int n;
+
+	if (!c)
+		return;
+	/* tag index */
+	cur = selmon->tagset[selmon->seltags] & TAGMASK;
+	for (i = 0; i < LENGTH(tags) && !(cur & (1u << i)); i++)
+		;
+	n = (int)i + arg->i;
+	if (n < 0 || n >= (int)LENGTH(tags))
+		return;
+
+	detach(c);
+	c->next = NULL;
+	for (t = &selmon->clients; *t; t = &(*t)->next)
+		;
+	*t = c;
+
+	c->tags = 1u << n;
+	selmon->seltags ^= 1;
+	selmon->tagset[selmon->seltags] = 1u << n;
+	focus(c);
+	arrange(selmon);
 }
 
 void
