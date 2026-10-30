@@ -41,10 +41,9 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
 
 static const Layout layouts[] = {
- 	/* symbol     arrange function */
-  {  "",        scroll },
- 	{  "",        NULL },    /* floating behavior */
-  // { "|||",    scroll },
+ 	/* symbol    arrange function */
+  {  "|||",    scroll },
+ 	{  "󱂬",      NULL },    /* floating behavior */
  	/* { "",      tile },*/    /* first entry is default */
  	/* { "",      monocle }, */
  };
