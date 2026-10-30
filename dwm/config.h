@@ -59,40 +59,15 @@ static const Layout layouts[] = {
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
-
-/* System */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-/* Apps */
 static const char *termcmd[]  = { "st", "-f", "AdwaitaMono Nerd Font:size=16", NULL };
 /* static const char *filemanager[]  = { "st", "-f", "AdwaitaMono Nerd Font:size=16", "-e", "nnn", NULL }; */
 static const char *filemanager[]  = { "pcmanfm", NULL };
 static const char *texteditor[]  = { "st", "-f", "AdwaitaMono Nerd Font:size=16", "-e", "nvim", NULL };
-/* static const char *browser[]  = {"firefox", NULL}; */
-/*
-static const char *browser[]  = {
-    "sh", "-c",
-    "query=$(printf '' | dmenu -fn monospace:size=14 -p 'Search: ') && "
-    "surf \"https://www.startpage.com/do/dsearch?query=$(printf '%s' \"$query\" | sed 's/ /+/g')\"",
-    NULL
-};
-*/
 /* static const char *browser[]  = {"./dwm/dwm/scripts/surf-launch.sh", NULL}; */
 static const char *browser[]  = {"./dwm/dwm/scripts/dwm-browser-launch.sh", NULL};
 static const char *locker[]  = { "slock", NULL };
-/* Audio & Brightness
-static const char *audiomute[]  = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", "&&", "~/dwm/dwm/scripts/statusbar.sh", "--once", NULL };
-static const char *audiolower[]  = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "0.1-", "&&", "~/dwm/dwm/scripts/statusbar.sh", "--once", NULL };
-static const char *audioraise[]  = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "0.1+", "-l", "1.0", "&&", "~/dwm/dwm/scripts/statusbar.sh", "--once", NULL };
-static const char *micmute[]  = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SOURCE@", "toggle", NULL };
-static const char *audioplay[]  = { "playerctl", "play-pause", NULL };
-static const char *audiostop[]  = { "playerctl", "stop", NULL };
-static const char *audioprev[]  = { "playerctl", "previous", NULL };
-static const char *audionext[]  = { "playerctl", "next", NULL };
-
-static const char *brightnessup[]  = { "brightnessctl", "--class=backlight", "set", "+10%", NULL };
-static const char *brightnessdown[]  = { "brightnessctl", "--class=backlight", "set", "10%-", NULL };
-*/
 
 /*Move Stack Function*/
 void
@@ -156,8 +131,8 @@ static const Key keys[] = {
 
 	{ MODKEY,                       XK_l,               focuscol,       {.i = +1} },
 	{ MODKEY,                       XK_h,               focuscol,       {.i = -1} },
-	{ MODKEY|ShiftMask,             XK_l,               movecol,        {.i = -1} },
-	{ MODKEY|ShiftMask,             XK_h,               movecol,        {.i = +1} },
+	{ MODKEY|ShiftMask,             XK_l,               movecol,        {.i = +1} },
+	{ MODKEY|ShiftMask,             XK_h,               movecol,        {.i = -1} },
 	{ MODKEY,                       XK_r,               cyclecolw,      {.i = +1} },
 	{ MODKEY,                       XK_minus,           setcolw,        {.f = -0.10} },
 	{ MODKEY,                       XK_plus,            setcolw,        {.f = +0.10} },
@@ -169,8 +144,8 @@ static const Key keys[] = {
 	// { MODKEY|ShiftMask,             XK_j,               setmfact,       {.f = -0.05} },
 	// { MODKEY|ShiftMask,             XK_k,               setmfact,       {.f = +0.05} },
 
-  { MODKEY|ShiftMask,             XK_h,               movestack,      {.i = -1 } },
-  { MODKEY|ShiftMask,             XK_l,               movestack,      {.i = +1 } },
+  // { MODKEY|ShiftMask,             XK_h,               movestack,      {.i = -1 } },
+  // { MODKEY|ShiftMask,             XK_l,               movestack,      {.i = +1 } },
 	{ MODKEY,                       XK_z,               zoom,           {0} },
 	{ MODKEY,                       XK_Tab,             view,           {0} },
 	{ MODKEY,                       XK_w,               killclient,     {0} },
