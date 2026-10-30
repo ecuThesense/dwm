@@ -194,7 +194,8 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                               6)
 	TAGKEYS(                        XK_8,                               7)
 	TAGKEYS(                        XK_9,                               8)
-	{ MODKEY|ShiftMask,             XK_u,               quit,           {0} },
+	// { MODKEY|ShiftMask,             XK_u,               quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_u,               spawn,          SHCMD("./dwm/dwm/scripts/exit-dwm.sh")},
 	{ MODKEY,                       XK_u,               spawn,          {.v = locker } },
 	{ 0,                     XF86XK_AudioMute,          spawn,          SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")},
 	{ 0,                     XF86XK_AudioLowerVolume,   spawn,          SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-")},
