@@ -13,7 +13,7 @@ pairs=""
   sed 's/&lt;/</g; s/&gt;/>/g; s/&quot;/"/g; s/&amp;/\&/g')
 
 sel=$(printf '%s\n' "$pairs" | awk -F'\t' 'NF>=2{print $2 " | " $1}' | sort -f |
-  dmenu -fn monospace:size=14 -i -l 10 -p 'Bookmark / URL / Search:')
+  dmenu -fn "AdwaitaMono Nerd Font:size=14" -i -l 10 -p 'Bookmark / URL / Search:')
 [ -z "$sel" ] && exit 0
 
 # did we pick a "name | URL" line? then take its URL
