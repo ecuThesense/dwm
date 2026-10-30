@@ -8,7 +8,7 @@ choice=$(printf '%s\n' \
   '󰤄  Hibernate' \
   '  Reboot' \
   '  Shutdown' |
-  dmenu -i -p "Exit:") || exit 0
+  dmenu -i -fn "AdwaitaMono Nerd Font:size=14" -p "Exit:") || exit 0
 
 case "$choice" in
 *Lock) slock ;;
