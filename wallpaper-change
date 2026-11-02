@@ -1,0 +1,1 @@
+xwallpaper --zoom "$(find ~/dwm/dwm/Wallpapers/ -type f | shuf -n 1)" &
