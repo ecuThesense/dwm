@@ -1,0 +1,9 @@
+# yazi.toml
+[mgr]
+show_hidden = true
+sort_dir_first = true
+linemode = "size_and_mtime"
+mouse_events = ["click", "scroll", "touch", "move", "drag"]
+
+[preview]
+image_quality = 50
