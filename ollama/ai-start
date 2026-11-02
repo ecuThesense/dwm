@@ -1,5 +1,22 @@
-gnome-terminal -- ollama serve
+#!/usr/bin/env bash
+#st -e ollama serve
+#sleep 7
+#ollama run gemma4-e4b-uncensored --think=false
 
-sleep 7
+# Start the server only if it isn't already running
+if ! pgrep -x ollama >/dev/null; then
+  st -e ollama serve &
+  # Wait until the API answers (max ~15 s) instead of a fixed sleep
+  for _ in $(seq 1 30); do
+    ollama list >/dev/null 2>&1 && break
+    sleep 0.5
+  done
+fi
 
-ollama run gemma4-e4b-uncensored --think=false
+# Pick an installed model (skip header line, take the NAME column)
+model=$(ollama list | awk 'NR>1 {print $1}' | dmenu -fn "AdwaitaMono Nerd Font:size=14" -i -l 10 -p "Ollama model:")
+
+# Abort if nothing was selected (Esc)
+[ -z "$model" ] && exit 0
+
+exec st -e ollama run "$model" --think=false

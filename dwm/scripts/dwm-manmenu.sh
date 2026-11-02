@@ -33,7 +33,7 @@ esac
 
 export FZF_ACCENT
 
-RANDOMPAGE="$HOME/SourceApps/gnome/gnome-randommanpage.sh"
+RANDOMPAGE="$HOME/dwm/dwm/scripts/dwm-randommanpage.sh"
 RANDOM_ENTRY="[ Random page ]"
 
 # Open a terminal if launched from a graphical launcher.
@@ -43,7 +43,7 @@ if [ ! -t 0 ] || [ ! -t 1 ]; then
   *) script_path="$PWD/$0" ;;
   esac
 
-  exec gnome-terminal -- "$script_path"
+  exec st -e "$script_path"
 fi
 
 # Live search with fzf.
