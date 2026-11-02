@@ -5,7 +5,7 @@
 
 # Start the server only if it isn't already running
 if ! pgrep -x ollama >/dev/null; then
-  st -e ollama serve &
+  st -f 'AdwaitaMono Nerd Font:size=16' -e ollama serve &
   # Wait until the API answers (max ~15 s) instead of a fixed sleep
   for _ in $(seq 1 30); do
     ollama list >/dev/null 2>&1 && break
@@ -19,4 +19,4 @@ model=$(ollama list | awk 'NR>1 {print $1}' | dmenu -fn "AdwaitaMono Nerd Font:s
 # Abort if nothing was selected (Esc)
 [ -z "$model" ] && exit 0
 
-exec st -e ollama run "$model" --think=false
+exec st -f 'AdwaitaMono Nerd Font:size=16' -e ollama run "$model" --think=false
