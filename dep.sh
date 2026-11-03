@@ -31,6 +31,10 @@ doas make -C ~/dwm/slstatus/ clean install
 doas make -C ~/dwm/st/ clean install
 doas make -C ~/dwm/surf/ clean install
 
+git clone https://github.com/cdown/clipmenu.git ~/apps/
+doas make -C ~/apps/clipmenu/
+bin-import ~/apps/clipmenu/src/
+
 mkdir -p ~/apps/
 curl -L -o ~/.local/bin/nvim https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
 curl -L -o ~/.local/bin/impression https://github.com/pkgforge-dev/Impression-AppImage/releases/download/3.8.0-1%402026-10-22_1792689451/Impression-3.8.0-1-anylinux-x86_64.AppImage
