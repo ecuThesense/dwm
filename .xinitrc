@@ -18,4 +18,5 @@ xwallpaper --zoom "$(find ~/dwm/dwm/Wallpapers/ -type f | shuf -n 1)" &
 
 slstatus &
 lxpolkit &
+clipmenud &
 exec dbus-run-session dwm
