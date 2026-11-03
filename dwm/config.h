@@ -55,9 +55,7 @@ static const int refreshrate =
 static const Layout layouts[] = {
     /* symbol    arrange function */
     {"|||", scroll},
-    {"󱂬", NULL},            /* floating behavior */
-    /* { "",      tile },*/ /* first entry is default */
-                               /* { "",      monocle }, */
+    {"󱂬", NULL}, /* floating behavior */
 };
 
 /* key definitions */
@@ -143,89 +141,91 @@ void movestack(const Arg *arg) {
   }
 }
 
-static const Key keys[] = {
-    /* modifier                     key                 function argument */
-    {MODKEY, XK_f, spawn, {.v = dmenucmd}},
-    {MODKEY, XK_t, spawn, {.v = termcmd}},
-    {MODKEY | ShiftMask, XK_b, togglebar, {0}},
-    {MODKEY, XK_e, spawn, {.v = filemanager}},
-    /*{ MODKEY|ShiftMask,             XK_e,               spawn, SHCMD("st
-       -f AdwaitaMono Nerd Font:size=16 -e
-       ./SourceApps/dwm/dwm/search.sh")},*/
-    {MODKEY | ShiftMask, XK_e, spawn,
-     SHCMD("st -f 'AdwaitaMono Nerd Font:size=16' -e "
-           "./dwm/dwm/scripts/file-picker.sh")},
-    {MODKEY, XK_i, spawn, SHCMD("./dwm/dmenuman/dmenuman.sh")},
-    {MODKEY, XK_m, spawn, {.v = texteditor}},
-    {MODKEY, XK_b, spawn, {.v = browser}},
-    {MODKEY, XK_v, spawn, {.v = clipboard}},
+static const Key
+    keys[] =
+        {
+            /* modifier                          key function argument */
+            {MODKEY, XK_f, spawn, {.v = dmenucmd}},
+            {MODKEY, XK_t, spawn, {.v = termcmd}},
+            {MODKEY | ShiftMask, XK_b, togglebar, {0}},
+            {MODKEY, XK_e, spawn, {.v = filemanager}},
+            /*{ MODKEY|ShiftMask,              XK_e,                      spawn,
+               SHCMD("st -f AdwaitaMono Nerd Font:size=16 -e
+               ./SourceApps/dwm/dwm/search.sh")},*/
+            {MODKEY | ShiftMask, XK_e, spawn,
+             SHCMD("st -f 'AdwaitaMono Nerd Font:size=16' -e "
+                   "./dwm/dwm/scripts/file-picker.sh")},
+            {MODKEY, XK_i, spawn, SHCMD("./dwm/dmenuman/dmenuman.sh")},
+            {MODKEY, XK_n, spawn, SHCMD("./dwm/dwm/scripts/notes-dmenu.sh")},
+            {MODKEY, XK_m, spawn, {.v = texteditor}},
+            {MODKEY, XK_b, spawn, {.v = browser}},
+            {MODKEY, XK_v, spawn, {.v = clipboard}},
+            {MODKEY, XK_l, focuscol, {.i = +1}},
+            {MODKEY, XK_h, focuscol, {.i = -1}},
+            {MODKEY, XK_j, viewshift, {.i = +1}},
+            {MODKEY, XK_k, viewshift, {.i = -1}},
+            {MODKEY | ShiftMask, XK_l, movecol, {.i = +1}},
+            {MODKEY | ShiftMask, XK_h, movecol, {.i = -1}},
+            {MODKEY, XK_r, cyclecolw, {.i = +1}},
+            {MODKEY, XK_minus, setcolw, {.f = -0.10}},
+            {MODKEY, XK_plus, setcolw, {.f = +0.10}},
+            {MODKEY | ShiftMask, XK_f, maxcol, {0}},
+            {MODKEY | ShiftMask, XK_j, tagshift, {.i = +1}},
+            {MODKEY | ShiftMask, XK_k, tagshift, {.i = -1}},
+            // { MODKEY,                       XK_l, focusstack,     {.i = +1 }
+            // }, { MODKEY,                       XK_h, focusstack,     {.i = -1
+            // } }, { MODKEY,                       XK_k, incnmaster,     {.i =
+            // +1 } }, { MODKEY,                       XK_j, incnmaster,     {.i
+            // = -1 } }, { MODKEY|ShiftMask,             XK_j, setmfact, {.f =
+            // -0.05} }, { MODKEY|ShiftMask,             XK_k, setmfact, {.f =
+            // +0.05} },
 
-    {MODKEY, XK_l, focuscol, {.i = +1}},
-    {MODKEY, XK_h, focuscol, {.i = -1}},
-    {MODKEY, XK_j, viewshift, {.i = +1}},
-    {MODKEY, XK_k, viewshift, {.i = -1}},
-    {MODKEY | ShiftMask, XK_l, movecol, {.i = +1}},
-    {MODKEY | ShiftMask, XK_h, movecol, {.i = -1}},
-    {MODKEY, XK_r, cyclecolw, {.i = +1}},
-    {MODKEY, XK_minus, setcolw, {.f = -0.10}},
-    {MODKEY, XK_plus, setcolw, {.f = +0.10}},
-    {MODKEY | ShiftMask, XK_f, maxcol, {0}},
-    {MODKEY | ShiftMask, XK_j, tagshift, {.i = +1}},
-    {MODKEY | ShiftMask, XK_k, tagshift, {.i = -1}},
-    // { MODKEY,                       XK_l,               focusstack, {.i =
-    // +1 } }, { MODKEY,                       XK_h, focusstack,     {.i =
-    // -1 } }, { MODKEY,                       XK_k, incnmaster,     {.i =
-    // +1 } }, { MODKEY,                       XK_j, incnmaster,     {.i =
-    // -1 } }, { MODKEY|ShiftMask,             XK_j,               setmfact,
-    // {.f = -0.05} }, { MODKEY|ShiftMask,             XK_k, setmfact, {.f =
-    // +0.05} },
-
-    // { MODKEY|ShiftMask,             XK_h,               movestack, {.i =
-    // -1 } }, { MODKEY|ShiftMask,             XK_l, movestack,      {.i =
-    // +1 } },
-    {MODKEY, XK_z, zoom, {0}},
-    {MODKEY, XK_Tab, view, {0}},
-    {MODKEY, XK_w, killclient, {0}},
-    // { MODKEY|ShiftMask,             XK_t,               setlayout, {.v =
-    // &layouts[0]} },
-    /*{ MODKEY|ShiftMask,             XK_f,               setlayout, {.v =
-       &layouts[1]} },*/
-    {MODKEY | ControlMask | ShiftMask, XK_f, togglefloating, {0}},
-    // { MODKEY|ShiftMask,             XK_m,               setlayout, {.v =
-    // &layouts[2]} },
-    /*{ MODKEY|ShiftMask,             XK_space,           setlayout, {0}
-       },*/
-    {MODKEY, XK_0, view, {.ui = ~0}},
-    {MODKEY | ShiftMask, XK_0, tag, {.ui = ~0}},
-    {MODKEY, XK_comma, focusmon, {.i = -1}},
-    {MODKEY, XK_period, focusmon, {.i = +1}},
-    {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
-    {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
-    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
-        TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
-            TAGKEYS(XK_9, 8)
-    // { MODKEY|ShiftMask,             XK_u,               quit, {0} },
-    {MODKEY | ShiftMask, XK_u, spawn, SHCMD("./dwm/dwm/scripts/exit-dwm.sh")},
-    {MODKEY, XK_u, spawn, {.v = locker}},
-    {0, XF86XK_AudioMute, spawn,
-     SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")},
-    {0, XF86XK_AudioLowerVolume, spawn,
-     SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-")},
-    {0, XF86XK_AudioRaiseVolume, spawn,
-     SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0")},
-    {0, XF86XK_AudioMicMute, spawn,
-     SHCMD("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle")},
-    {0, XF86XK_AudioPlay, spawn, SHCMD("playerctl play-pause")},
-    {0, XF86XK_AudioStop, spawn, SHCMD("playerctl stop")},
-    {0, XF86XK_AudioPrev, spawn, SHCMD("playerctl previous")},
-    {0, XF86XK_AudioNext, spawn, SHCMD("playerctl next")},
-    {0, XF86XK_MonBrightnessUp, spawn,
-     SHCMD("brightnessctl --class=backlight set +10%")},
-    {0, XF86XK_MonBrightnessDown, spawn,
-     SHCMD("brightnessctl --class=backlight set 10%-")},
-    {0, XK_Print, spawn,
-     SHCMD("maim -s ~/Pictures/Screenshots/$(date +%s).png | xclip "
-           "-selection clipboard -t image/png")},
+            // { MODKEY|ShiftMask,             XK_h, movestack,      {.i = -1 }
+            // }, { MODKEY|ShiftMask,             XK_l, movestack,      {.i = +1
+            // } },
+            {MODKEY, XK_z, zoom, {0}},
+            {MODKEY, XK_Tab, view, {0}},
+            {MODKEY, XK_w, killclient, {0}},
+            // { MODKEY|ShiftMask,             XK_t, setlayout,      {.v =
+            // &layouts[0]} },
+            /*{ MODKEY|ShiftMask,              XK_f, setlayout,      {.v =
+               &layouts[1]} },*/
+            {MODKEY | ControlMask | ShiftMask, XK_f, togglefloating, {0}},
+            // { MODKEY|ShiftMask,             XK_m, setlayout, {.v =
+            // &layouts[2]} },
+            /*{ MODKEY|ShiftMask,              XK_space, setlayout, {0} },*/
+            {MODKEY, XK_0, view, {.ui = ~0}},
+            {MODKEY | ShiftMask, XK_0, tag, {.ui = ~0}},
+            {MODKEY, XK_comma, focusmon, {.i = -1}},
+            {MODKEY, XK_period, focusmon, {.i = +1}},
+            {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
+            {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
+            TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
+                TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6)
+                    TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)
+            // { MODKEY|ShiftMask,             XK_u,               quit, {0} },
+            {MODKEY | ShiftMask, XK_u, spawn,
+             SHCMD("./dwm/dwm/scripts/exit-dwm.sh")},
+            {MODKEY, XK_u, spawn, {.v = locker}},
+            {0, XF86XK_AudioMute, spawn,
+             SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")},
+            {0, XF86XK_AudioLowerVolume, spawn,
+             SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-")},
+            {0, XF86XK_AudioRaiseVolume, spawn,
+             SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0")},
+            {0, XF86XK_AudioMicMute, spawn,
+             SHCMD("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle")},
+            {0, XF86XK_AudioPlay, spawn, SHCMD("playerctl play-pause")},
+            {0, XF86XK_AudioStop, spawn, SHCMD("playerctl stop")},
+            {0, XF86XK_AudioPrev, spawn, SHCMD("playerctl previous")},
+            {0, XF86XK_AudioNext, spawn, SHCMD("playerctl next")},
+            {0, XF86XK_MonBrightnessUp, spawn,
+             SHCMD("brightnessctl --class=backlight set +10%")},
+            {0, XF86XK_MonBrightnessDown, spawn,
+             SHCMD("brightnessctl --class=backlight set 10%-")},
+            {0, XK_Print, spawn,
+             SHCMD("maim -s ~/Pictures/Screenshots/$(date +%s).png | xclip "
+                   "-selection clipboard -t image/png")},
 };
 
 /* button definitions */
