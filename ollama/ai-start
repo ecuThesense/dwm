@@ -19,4 +19,4 @@ model=$(ollama list | awk 'NR>1 {print $1}' | dmenu -fn "AdwaitaMono Nerd Font:s
 # Abort if nothing was selected (Esc)
 [ -z "$model" ] && exit 0
 
-exec st -f 'AdwaitaMono Nerd Font:size=16' -e ollama run "$model" --think=false
+exec st -f 'AdwaitaMono Nerd Font:size=16' -e ollama run "$model"
