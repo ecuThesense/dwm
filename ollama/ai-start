@@ -19,4 +19,15 @@ model=$(ollama list | awk 'NR>1 {print $1}' | dmenu -fn "AdwaitaMono Nerd Font:s
 # Abort if nothing was selected (Esc)
 [ -z "$model" ] && exit 0
 
-exec st -f 'AdwaitaMono Nerd Font:size=16' -e ollama run "$model"
+# exec kitty -e ollama run "$model"
+
+# Pick thinking mode
+think_mode=$(echo -e "Enabled\nDisabled" | dmenu -fn "AdwaitaMono Nerd Font:size=14" -i -p "Thinking mode:")
+[ -z "$think_mode" ] && exit 0
+
+# Build command
+if [ "$think_mode" = "Disabled" ]; then
+  exec kitty -e ollama run "$model" --think=false
+else
+  exec kitty -e ollama run "$model"
+fi
